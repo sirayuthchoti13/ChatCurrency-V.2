@@ -5,7 +5,7 @@ import 'package:flutter_application/info_page.dart';
 import 'package:flutter_application/stock_page.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'investment_page.dart'; 
+import 'investment_page.dart';
 
 class HomePage extends StatefulWidget {
   final List<String> historyList;
@@ -16,7 +16,8 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
   final TextEditingController amountController = TextEditingController();
   String fromCurrency = 'USD';
   String toCurrency = 'THB';
@@ -24,8 +25,26 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   late Animation<double> _animation;
 
   final List<String> currencies = [
-    'USD', 'THB', 'EUR', 'JPY', 'GBP', 'CNY', 'KRW', 'AUD', 'CAD', 'CHF',
-    'SGD', 'HKD', 'NZD', 'INR', 'RUB', 'ZAR', 'SEK', 'NOK', 'MXN', 'BRL'
+    'USD',
+    'THB',
+    'EUR',
+    'JPY',
+    'GBP',
+    'CNY',
+    'KRW',
+    'AUD',
+    'CAD',
+    'CHF',
+    'SGD',
+    'HKD',
+    'NZD',
+    'INR',
+    'RUB',
+    'ZAR',
+    'SEK',
+    'NOK',
+    'MXN',
+    'BRL'
   ];
 
   @override
@@ -47,7 +66,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   }
 
   void swapCurrencies() {
-    if (_controller.isAnimating || _controller.status == AnimationStatus.completed) {
+    if (_controller.isAnimating ||
+        _controller.status == AnimationStatus.completed) {
       _controller.reset();
     }
     _controller.forward(from: 0.0);
@@ -117,20 +137,25 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: 0,
+        type: BottomNavigationBarType.fixed,
+        showUnselectedLabels: true,
+        selectedItemColor: Colors.green.shade700,
+        unselectedItemColor: Colors.grey,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "หน้าหลัก"),
           BottomNavigationBarItem(icon: Icon(Icons.history), label: "ประวัติ"),
           BottomNavigationBarItem(icon: Icon(Icons.trending_up), label: "หุ้น"),
-          BottomNavigationBarItem(icon: Icon(Icons.account_balance_wallet), label: "การลงทุน"),
-          BottomNavigationBarItem(icon: Icon(Icons.info), label: "ข้อมูล"), 
+          BottomNavigationBarItem(
+              icon: Icon(Icons.account_balance_wallet), label: "การลงทุน"),
+          BottomNavigationBarItem(icon: Icon(Icons.info), label: "ข้อมูล"),
         ],
-        selectedItemColor: Colors.green.shade700,
-        unselectedItemColor: Colors.grey,
         onTap: (index) {
           if (index == 1) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => HistoryPage(historyList: widget.historyList)),
+              MaterialPageRoute(
+                  builder: (context) =>
+                      HistoryPage(historyList: widget.historyList)),
             );
           } else if (index == 2) {
             Navigator.push(
@@ -172,18 +197,25 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 children: [
                   TextField(
                     controller: amountController,
-                    keyboardType: TextInputType.numberWithOptions(decimal: true),
+                    keyboardType:
+                        TextInputType.numberWithOptions(decimal: true),
                     decoration: InputDecoration(
                       labelText: 'กรอกจำนวนเงิน',
                       labelStyle: GoogleFonts.prompt(fontSize: 16),
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12)),
                       filled: true,
                       fillColor: Colors.white,
                       suffixIcon: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          IconButton(icon: Icon(Icons.remove_circle, color: Colors.redAccent), onPressed: decrementAmount),
-                          IconButton(icon: Icon(Icons.add_circle, color: Colors.green), onPressed: incrementAmount),
+                          IconButton(
+                              icon: Icon(Icons.remove_circle,
+                                  color: Colors.redAccent),
+                              onPressed: decrementAmount),
+                          IconButton(
+                              icon: Icon(Icons.add_circle, color: Colors.green),
+                              onPressed: incrementAmount),
                         ],
                       ),
                     ),
@@ -194,23 +226,32 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     children: [
                       DropdownButton<String>(
                         value: fromCurrency,
-                        onChanged: (value) => setState(() => fromCurrency = value!),
+                        onChanged: (value) =>
+                            setState(() => fromCurrency = value!),
                         items: currencies.map((currency) {
-                          return DropdownMenuItem(value: currency, child: Text(currency, style: GoogleFonts.prompt()));
+                          return DropdownMenuItem(
+                              value: currency,
+                              child:
+                                  Text(currency, style: GoogleFonts.prompt()));
                         }).toList(),
                       ),
                       RotationTransition(
                         turns: _animation,
                         child: IconButton(
-                          icon: Icon(Icons.swap_horiz, size: 36, color: Colors.blueAccent),
+                          icon: Icon(Icons.swap_horiz,
+                              size: 36, color: Colors.blueAccent),
                           onPressed: swapCurrencies,
                         ),
                       ),
                       DropdownButton<String>(
                         value: toCurrency,
-                        onChanged: (value) => setState(() => toCurrency = value!),
+                        onChanged: (value) =>
+                            setState(() => toCurrency = value!),
                         items: currencies.map((currency) {
-                          return DropdownMenuItem(value: currency, child: Text(currency, style: GoogleFonts.prompt()));
+                          return DropdownMenuItem(
+                              value: currency,
+                              child:
+                                  Text(currency, style: GoogleFonts.prompt()));
                         }).toList(),
                       ),
                     ],
@@ -220,11 +261,13 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     onPressed: handleConvert,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.green.shade700,
-                      padding: EdgeInsets.symmetric(vertical: 14, horizontal: 24),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 14, horizontal: 24),
                     ),
                     child: Text(
                       'แปลงสกุลเงิน',
-                      style: GoogleFonts.prompt(fontSize: 18, fontWeight: FontWeight.bold),
+                      style: GoogleFonts.prompt(
+                          fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ],
